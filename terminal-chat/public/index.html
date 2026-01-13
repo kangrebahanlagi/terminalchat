@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Chat - Real-time Hacker Style</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="header-text">TERMINAL CHAT v1.0</div>
+                <div class="connection-status">
+                    <span class="status-dot"></span> CONNECTING...
+                </div>
+            </div>
+            
+            <div class="terminal-body">
+                <div class="welcome-message">
+                    <pre class="ascii-art">
+ _____ _____ _____ _____ _____ _____ _____ 
+|_   _|  __ \_   _|_   _|_   _|_   _|_   _|
+  | | | |  | || |   | |   | |   | |   | |  
+  | | | |  | || |   | |   | |   | |   | |  
+ _| |_| |__| || |_  | |  _| |_ _| |_  | |  
+|_____|_____/_____| |_| |_____|_____| |_|  
+                    </pre>
+                    
+                    <div class="typing-effect">
+                        <h1>TERMINAL CHAT</h1>
+                        <p class="subtitle">Real-time chatting with terminal style</p>
+                    </div>
+                    
+                    <div class="system-messages">
+                        <div class="system-message">[SYS] > Welcome to Terminal Chat</div>
+                        <div class="system-message">[SYS] > Secure connection established</div>
+                        <div class="system-message">[SYS] > Type your credentials to continue</div>
+                    </div>
+                    
+                    <div class="login-form">
+                        <div class="input-group">
+                            <label class="input-label">&gt; username:</label>
+                            <input type="text" id="username" class="terminal-input" autocomplete="off" spellcheck="false" placeholder="Enter username...">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">&gt; password:</label>
+                            <input type="password" id="password" class="terminal-input" autocomplete="off" spellcheck="false" placeholder="Enter password...">
+                        </div>
+                        
+                        <div class="login-hint">
+                            [NOTE] New users will be registered automatically
+                        </div>
+                        
+                        <button id="login-btn" class="terminal-btn">
+                            <span class="btn-text">LOGIN TO CHAT</span>
+                            <span class="blink">_</span>
+                        </button>
+                        
+                        <div class="shortcuts">
+                            <div class="shortcut">Press <kbd>Enter</kbd> to login</div>
+                            <div class="shortcut">Press <kbd>Ctrl</kbd> + <kbd>R</kbd> to refresh</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="terminal-footer">
+                <div class="footer-text">
+                    <span class="footer-item">ENCRYPTED CHAT</span>
+                    <span class="footer-item">REAL-TIME</span>
+                    <span class="footer-item">MULTI-COMMUNITY</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Chat Screen -->
+    <div id="chat-screen" class="screen">
+        <div class="terminal">
+            <div class="terminal-header">
+                <div class="header-text">CHAT TERMINAL</div>
+                <div class="header-info">
+                    <span id="connection-status" class="connection-status">
+                        <span class="status-dot"></span> CONNECTING
+                    </span>
+                    <span id="user-info" class="user-info">Guest</span>
+                </div>
+            </div>
+            
+            <!-- Community Tabs -->
+            <div class="tabs-container">
+                <div class="tabs" id="community-tabs">
+                    <div class="tab active" data-community="global">
+                        <span class="tab-name">global</span>
+                        <span class="tab-count">0</span>
+                    </div>
+                    <div class="tab-add" id="add-tab-btn" title="Join new community">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Area -->
+            <div class="chat-container">
+                <!-- Messages Container -->
+                <div class="messages-container" id="messages-container">
+                    <div class="messages" id="messages">
+                        <!-- Messages will be inserted here -->
+                    </div>
+                </div>
+                
+                <!-- User List (Sidebar) -->
+                <div class="user-sidebar" id="user-sidebar">
+                    <div class="sidebar-header">
+                        <i class="fas fa-users"></i>
+                        <span>ONLINE (<span id="online-count">0</span>)</span>
+                    </div>
+                    <div class="user-list" id="user-list">
+                        <div class="user-item">Loading users...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Input Area -->
+            <div class="input-container">
+                <div class="input-prefix">
+                    <span id="input-prefix">[<span id="current-time">00:00</span>][<span id="current-user">guest</span>@<span id="current-community">global</span>]</span>
+                    <span class="prompt">&gt;</span>
+                </div>
+                <input 
+                    type="text" 
+                    id="chat-input" 
+                    class="chat-input" 
+                    autocomplete="off" 
+                    spellcheck="false"
+                    placeholder="Type your message here... (type /help for commands)"
+                    autofocus
+                >
+            </div>
+            
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <div class="status-items">
+                    <span class="status-item" id="typing-indicator"></span>
+                    <span class="status-item" id="message-count">0 messages</span>
+                    <span class="status-item">Community: <span id="active-community">global</span></span>
+                </div>
+                
+                <div class="status-actions">
+                    <button id="ghost-btn" class="status-btn" title="Toggle ghost mode">
+                        <i class="fas fa-ghost"></i> Ghost
+                    </button>
+                    <button id="clear-btn" class="status-btn" title="Clear chat">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                    <button id="logout-btn" class="status-btn" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
